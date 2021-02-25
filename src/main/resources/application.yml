@@ -1,0 +1,14 @@
+server.port: 8080
+management:
+   server.port: 8081
+   endpoints.web.exposure.include: "*"
+   security.enabled: false
+   endpoint.health.show-details: always
+
+logging.config: classpath:logging/logback.xml
+
+# Yelp details (Normally there would be no default and require it to be supplied by ENV_VARs)
+yelp: 
+   apikey: ${YELP_API_KEY:MNvNgv142MgqFRTEeuKKBLOdpYmiKpo-k2nbFNi94AqxDpdIFLce2MJk-vT-3llDIr3mznzwHwcrBeFrCPziYSXDM_TM-18DyL3aUfQGiycWoMmOst0qjjY2ZMg2YHYx}
+   busurl: ${YELP_BUS_URL:https://api.yelp.com/v3/businesses}
+   reviewurl: ${YELP_REVIEW_URL:https://api.yelp.com/v3/businesses/XX/reviews}

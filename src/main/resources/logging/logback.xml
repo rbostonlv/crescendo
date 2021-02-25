@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<springProperty name="appname" source="spring.application.name"/>
+<!--     <include resource="logging/defaults.xml" /> -->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+  		</encoder>
+  	</appender>
+
+	<!--Daily rolling file appender -->
+  	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/${appname}.log</file>  
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>logs/${appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
+		</rollingPolicy>
+  
+  		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+  		</encoder>
+  	</appender>
+
+	<logger name="com.boston" level="DEBUGGER" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="org.springframework" level="WARN">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<root level="INFO">
+ 		<appender-ref ref="STDOUT" />
+ 		<appender-ref ref="FILE" />
+	</root>
+</configuration>
