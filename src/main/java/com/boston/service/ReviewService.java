@@ -56,7 +56,6 @@ public class ReviewService
 		try {
 			yelp.getReviews(busId, 
 				YelpApiWrapper.handlerWrapper((is) -> ReviewParser.readReviews(is, city.toString(), reviews)));
-			System.out.println(reviews);
 		}
 		catch (IOException e) {
 			log.error("Can't retrieve reviews for: " + busId, e);

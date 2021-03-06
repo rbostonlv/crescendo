@@ -1,3 +1,7 @@
+spring:
+   application:
+      name: test
+
 server.port: 8080
 management:
    server.port: 8081
