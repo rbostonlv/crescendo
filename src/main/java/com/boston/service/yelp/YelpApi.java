@@ -25,9 +25,9 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 @Component
-public class YelpApiWrapper 
+public class YelpApi 
 {
-	private Logger log = LoggerFactory.getLogger(YelpApiWrapper.class);
+	private Logger log = LoggerFactory.getLogger(YelpApi.class);
 
 	@Autowired 
 	private YelpConfig config;

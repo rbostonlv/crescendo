@@ -26,7 +26,7 @@ public class YelpReviewService
 	private Logger log = LoggerFactory.getLogger(YelpReviewService.class);
 
 	@Autowired
-	private YelpApiWrapper yelp;
+	private YelpApi yelp;
 	
 	public List<ReviewDTO> find(String busId) throws InvalidBusinessException {
 		try {
