@@ -66,7 +66,8 @@ pipeline {
             '''
         }
     }
-    stage('Deploy') {
+    
+    stage('Containerize') {
       	when {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
@@ -78,9 +79,26 @@ pipeline {
             sh '''
             	docker build -t crescendo -f Dockerfile .
             	docker tag crescendo rboston1/crescendo:v1
-				docker push rboston1/crescendo:v1
             '''
         }
     }
+
+	stage('Image Push') {
+      	when {
+         	expression { currentBuild.currentResult == 'SUCCESS' }
+      	}
+		steps {
+	        withDockerRegistry([ credentialsId: "rboston1", url: "" ]) {
+				sh 'docker push rboston1/crescendo:v1'
+	        }		
+ //      		docker.withRegistry('https://registry.hub.docker.com', 'git') {            
+ //      			app.push("${env.BUILD_NUMBER}")            
+//       			app.push("latest")        
+//         	}  
+//			docker.withRegistry( '', rboston1 ) { 
+//				dockerImage.push() 
+//			}
+		}
+	} 
   }
 }
