@@ -76,11 +76,9 @@ pipeline {
             echo ""
             
             sh '''
-            	docker build -t crescendo -f Dockerfile --build-arg artifactId=taxService .
-				docker images
-				docker tag NEW_IMAGE_ID rboston1/tax-service:dev_1
-				docker push rboston1/tax-service:dev_1
-				docker run [container_name] [new_parameter]
+            	docker build -t crescendo -f Dockerfile .
+            	docker tag crescendo rboston1/crescendo:v1
+				docker push rboston1/crescendo:v1
             '''
         }
     }
