@@ -11,9 +11,7 @@ ENV APP_HOME=/usr/local/$artifactId
 
 WORKDIR $APP_HOME
 
-COPY $artifactId/target/$JAR_FILE $APP_HOME/app.jar
-#COPY deploy/startService.sh $APP_HOME/startService.sh
-#RUN chmod +x $APP_HOME/startService.sh
+COPY $JAR_FILE $APP_HOME/app.jar
 
 # We don't use expose because we explicitly publish ports thru port mappings
 
