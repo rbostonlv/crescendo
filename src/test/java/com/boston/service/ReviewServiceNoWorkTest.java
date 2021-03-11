@@ -27,7 +27,7 @@ import com.google.gson.Gson;
  * In this version there's nothing to really stub out at the lower levels.
  *
  */
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 public class ReviewServiceNoWorkTest 
 {
     @TestConfiguration
@@ -89,7 +89,7 @@ public class ReviewServiceNoWorkTest
         Mockito.when(svc.find("100")).thenReturn(results);
     }
 
-    @Test
+//    @Test
     public void testCreateFind() throws InvalidBusinessException {
         List<ReviewDTO> found = svc.find("100");
      
