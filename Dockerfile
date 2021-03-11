@@ -11,7 +11,7 @@ ENV APP_HOME=/usr/local/$artifactId
 
 WORKDIR $APP_HOME
 
-COPY $JAR_FILE $APP_HOME/app.jar
+COPY target/$JAR_FILE $APP_HOME/app.jar
 
 # We don't use expose because we explicitly publish ports thru port mappings
 
