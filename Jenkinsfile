@@ -9,7 +9,7 @@ pipeline {
   }
      
   stages {
-	stage("Initialize") {
+	stage("Init") {
          steps {
             echo "*** Inside init step ***"
             echo "*************"
@@ -48,7 +48,7 @@ pipeline {
 
             //bat 'mvn clean compile'            
             sh '''
-                mvn -Dmaven.test.skip=true package
+                mvn -Dmaven.test.skip=true install
             '''
         }   
     }
@@ -66,17 +66,21 @@ pipeline {
             '''
         }
     }
-    stage('Build Dist') {
+    stage('Deploy') {
       	when {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
         steps {
-            echo "*** Inside build-dist step ***"
+            echo "*** Inside deploy step ***"
             echo "*************"
             echo ""
             
             sh '''
-               mvn assembly:single
+            	docker build -t crescendo -f Dockerfile --build-arg artifactId=taxService .
+				docker images
+				docker tag NEW_IMAGE_ID rboston1/tax-service:dev_1
+				docker push rboston1/tax-service:dev_1
+				docker run [container_name] [new_parameter]
             '''
         }
     }
