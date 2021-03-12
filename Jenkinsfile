@@ -3,6 +3,8 @@ pipeline {
   //agent { docker { image 'node:14-alpine' } }  
   agent any
  
+  def imageTag = 'v${env.BUILD_ID}'
+  
   environment {
     imageName = 'rboston1/crescendo'
     registryCredentialSet = 'dockerhub'
@@ -21,7 +23,6 @@ pipeline {
             echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
             echo "env.TAG_NAME: ${env.TAG_NAME}"
             echo "env.BUILD_ID: ${env.BUILD_ID}"
-            def imageTag = 'v${env.BUILD_ID}'
             echo "imageTag: ${imageTag}"
 
             // Some examples of single line and mult-line shell execution
@@ -105,7 +106,6 @@ pipeline {
 				docker.withRegistry('', registryCredentialSet) {
 					dockerInstance.push() 
 //            	dockerInstance.push("latest")
-            	def imageTag = 'v${env.BUILD_ID}'
 //				dockerInstance.push("${imageTag}")
 //				sh 'docker push ${imageName}'
 	        	}
