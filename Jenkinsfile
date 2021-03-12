@@ -80,16 +80,15 @@ pipeline {
             echo "*************"
             echo ""
             
-//        	script {
-//          		dockerInstance = docker.build(imageName)
-//        	}
-//            script { 
+        	script {
+          		dockerInstance = docker.build(imageName)
+//    				def customImage = docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles") 
 //                dockerInstance = docker.build registry + ":$BUILD_NUMBER" 
-//            }        	            
-            sh '''
-            	docker build -t crescendo -f Dockerfile .
-            	docker tag crescendo rboston1/crescendo:v1
-            '''
+        	}
+//            sh '''
+//            	docker build -t crescendo -f Dockerfile .
+//            	//docker tag crescendo rboston1/crescendo:v1
+//            '''
         }
     }
 
@@ -99,10 +98,10 @@ pipeline {
       	}
 		steps {
 			docker.withRegistry('', registryCredentialSet) {
-//				dockerInstance.push() 
+				dockerInstance.push() 
 //            	dockerInstance.push("latest")
 //				dockerInstance.push("${env.BUILD_NUMBER}")
-				sh 'docker push ${imageName}'
+//				sh 'docker push ${imageName}'
 	        }		
 		}
 	} 
