@@ -10,6 +10,7 @@ pipeline {
     imageName = 'rboston1/crescendo'
     registryCredentialSet = 'dockerhub'
     dockerInstance = ''
+    imageTag = 'v${env.BUILD_ID}'
   }
      
   stages {
@@ -23,6 +24,7 @@ pipeline {
             echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
             echo "env.TAG_NAME: ${env.TAG_NAME}"
             echo "env.BUILD_ID: ${env.BUILD_ID}"
+            echo "imageTag: ${imageTag}"
 
             // Some examples of single line and mult-line shell execution
             // sh 'printenv'
@@ -101,7 +103,7 @@ pipeline {
 				docker.withRegistry('', registryCredentialSet) {
 					dockerInstance.push() 
 //            	dockerInstance.push("latest")
-//				dockerInstance.push("${env.BUILD_NUMBER}")
+//				dockerInstance.push("${imageTag}")
 //				sh 'docker push ${imageName}'
 	        	}		
 			}
