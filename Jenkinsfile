@@ -6,6 +6,10 @@ pipeline {
   environment {
    	DISABLE_AUTH = 'true'
    	DB_ENGINE    = 'sqlite'
+    //imageName = 'rboston1/crescendo:v1'
+    imageName = 'rboston1/crescendo'
+    registryCredentialSet = 'dockerhub'
+    dockerInstance = ''
   }
      
   stages {
@@ -67,7 +71,7 @@ pipeline {
         }
     }
     
-    stage('Containerize') {
+    stage('Build Image') {
       	when {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
@@ -76,6 +80,12 @@ pipeline {
             echo "*************"
             echo ""
             
+//        	script {
+//          		dockerInstance = docker.build(imageName)
+//        	}
+//            script { 
+//                dockerInstance = docker.build registry + ":$BUILD_NUMBER" 
+//            }        	            
             sh '''
             	docker build -t crescendo -f Dockerfile .
             	docker tag crescendo rboston1/crescendo:v1
@@ -83,21 +93,17 @@ pipeline {
         }
     }
 
-	stage('Image Push') {
+	stage('Push Image') {
       	when {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
 		steps {
-	        withDockerRegistry([ credentialsId: "rboston1", url: "" ]) {
-				sh 'docker push rboston1/crescendo:v1'
+			docker.withRegistry('', registryCredentialSet) {
+//				dockerInstance.push() 
+//            	dockerInstance.push("latest")
+//				dockerInstance.push("${env.BUILD_NUMBER}")
+				sh 'docker push ${imageName}'
 	        }		
- //      		docker.withRegistry('https://registry.hub.docker.com', 'git') {            
- //      			app.push("${env.BUILD_NUMBER}")            
-//       			app.push("latest")        
-//         	}  
-//			docker.withRegistry( '', rboston1 ) { 
-//				dockerImage.push() 
-//			}
 		}
 	} 
   }
