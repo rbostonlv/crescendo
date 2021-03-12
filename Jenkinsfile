@@ -105,9 +105,15 @@ pipeline {
 //            	dockerInstance.push("latest")
 //				dockerInstance.push("${imageTag}")
 //				sh 'docker push ${imageName}'
-	        	}		
+	        	}
 			}
 		}
-	} 
+	}
+
+	stage('Clean up') {
+		steps {
+			sh 'docker image prune -f'
+		}
+	}
   }
 }
