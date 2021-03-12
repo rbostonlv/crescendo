@@ -1,10 +1,10 @@
+def imageTag = "v${env.BUILD_ID}"
+  
 pipeline {
   //agent { docker { image 'maven:3.3.3' } }
   //agent { docker { image 'node:14-alpine' } }  
   agent any
  
-  def imageTag = 'v${env.BUILD_ID}'
-  
   environment {
     imageName = 'rboston1/crescendo'
     registryCredentialSet = 'dockerhub'
@@ -19,6 +19,7 @@ pipeline {
             echo ""
             
             echo "env.PATH: ${env.PATH}"
+            echo "env.WORKSPACE: ${env.WORKSPACE}"
             echo "env.GIT_BRANCH: ${env.GIT_BRANCH}"
             echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
             echo "env.TAG_NAME: ${env.TAG_NAME}"
