@@ -4,13 +4,9 @@ pipeline {
   agent any
  
   environment {
-   	DISABLE_AUTH = 'true'
-   	DB_ENGINE    = 'sqlite'
-    //imageName = 'rboston1/crescendo:v1'
     imageName = 'rboston1/crescendo'
     registryCredentialSet = 'dockerhub'
     dockerInstance = ''
-    imageTag = 'v${env.BUILD_ID}'
   }
      
   stages {
@@ -19,16 +15,18 @@ pipeline {
             echo "*** Inside init step ***"
             echo "*************"
             echo ""
+            
             echo "env.PATH: ${env.PATH}"
             echo "env.GIT_BRANCH: ${env.GIT_BRANCH}"
             echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
             echo "env.TAG_NAME: ${env.TAG_NAME}"
             echo "env.BUILD_ID: ${env.BUILD_ID}"
+            def imageTag = 'v${env.BUILD_ID}'
             echo "imageTag: ${imageTag}"
 
             // Some examples of single line and mult-line shell execution
-            // sh 'printenv'
             /**
+            sh 'printenv'
             sh '''
                 pwd
                 ls -lah
@@ -78,7 +76,7 @@ pipeline {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
         steps {
-            echo "*** Inside deploy step ***"
+            echo "*** Inside build-image step ***"
             echo "*************"
             echo ""
             
@@ -99,10 +97,15 @@ pipeline {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
 		steps {
+            echo "*** Inside push-image step ***"
+            echo "*************"
+            echo ""
+
         	script {
 				docker.withRegistry('', registryCredentialSet) {
 					dockerInstance.push() 
 //            	dockerInstance.push("latest")
+            	def imageTag = 'v${env.BUILD_ID}'
 //				dockerInstance.push("${imageTag}")
 //				sh 'docker push ${imageName}'
 	        	}
@@ -112,6 +115,10 @@ pipeline {
 
 	stage('Clean up') {
 		steps {
+            echo "*** Inside cleanup step ***"
+            echo "*************"
+            echo ""
+
 			sh 'docker image prune -f'
 		}
 	}
