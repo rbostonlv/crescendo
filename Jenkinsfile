@@ -97,12 +97,14 @@ pipeline {
          	expression { currentBuild.currentResult == 'SUCCESS' }
       	}
 		steps {
-			docker.withRegistry('', registryCredentialSet) {
-				dockerInstance.push() 
+        	script {
+				docker.withRegistry('', registryCredentialSet) {
+					dockerInstance.push() 
 //            	dockerInstance.push("latest")
 //				dockerInstance.push("${env.BUILD_NUMBER}")
 //				sh 'docker push ${imageName}'
-	        }		
+	        	}		
+			}
 		}
 	} 
   }
